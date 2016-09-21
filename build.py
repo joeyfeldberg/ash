@@ -23,6 +23,7 @@ def set_properties(project):
     project.depends_on('fuzzywuzzy')
     project.depends_on('python-Levenshtein')
     project.depends_on('python-crontab')
+    project.depends_on('boto3')
     project.set_property('coverage_break_build', False)
 
     with open(zsh_completion_path(), "w+") as f:
