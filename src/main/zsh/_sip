@@ -1,0 +1,12 @@
+#compdef sip
+
+_sip() {
+  cur=${words[CURRENT]}
+  if [ -n "$cur" ]; then
+    _alternative "ec2:instances opts:($(sip --completions $cur))"
+  else
+    return 0
+  fi
+}
+
+_sip

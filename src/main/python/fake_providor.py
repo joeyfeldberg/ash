@@ -3,4 +3,4 @@ class FakeProvidor():
         pass
 
     def get_all(self):
-        return [('one', '1.1.1.1'), ('two', '2.2.2.2')]
+        return [('test1', '1.1.1.1'), ('test2', '2.2.2.2')]

@@ -24,8 +24,7 @@ def set_properties(project):
     project.depends_on('python-Levenshtein')
     project.depends_on('python-crontab')
     project.set_property('coverage_break_build', False)
-    project.set_property('filter_resources_glob', '**/scripts/_sip')
 
     with open(zsh_completion_path(), "w+") as f:
-        with open('src/main/scripts/_sip') as fr:
+        with open('src/main/zsh/_sip') as fr:
             f.write(fr.read())

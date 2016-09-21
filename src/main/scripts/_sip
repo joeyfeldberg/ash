@@ -1,6 +1,0 @@
-#compdef sip
-
-cur = ${words[CURRENT]}
-if [ -n "$cur" ];
-  _alternative 'ec2:instances separated opts:{sip --completions $cur}'
-fi
