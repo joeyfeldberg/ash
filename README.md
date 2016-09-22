@@ -1,7 +1,5 @@
 # sip
 
-## not working yet!
-
 ## install
 
 This project was built using python 3.5.2 and using pybuilder: http://pybuilder.github.io/
@@ -11,6 +9,18 @@ This project was built using python 3.5.2 and using pybuilder: http://pybuilder.
 3. pyb install_dependencies install
 
 ## quick start
+
+###### make sure you have aws credentials set in the usual way, for example
+in ``~/.aws/credentials`` put:
+
+    [default]
+    aws_access_key_id = YOUR_KEY
+    aws_secret_access_key = YOUR_SECRET
+
+and in ``~/.aws/config`` put:
+
+    [default]
+    region=us-east-1
 
 ###### to create a local ec2 inventory
     sip --refresh_inventory
