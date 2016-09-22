@@ -4,11 +4,13 @@ import sys
 import argparse
 from crontab import CronTab
 from inventory import Inventory
-from fake_providor import FakeProvidor
+from ec2_providor import EC2Providor
+from subprocess import call
 
 def parse_opts():
     parser = argparse.ArgumentParser()
     parser.add_argument('--completions')
+    parser.add_argument('--get-all', action='store_true')
     parser.add_argument('--refresh_inventory', action='store_true')
     parser.add_argument('--install_cron', metavar="minutes")
     parser.add_argument('name', nargs="?", type=str)
@@ -26,18 +28,21 @@ def install_cron(minutes):
 
 def main():
     opts = parse_opts()
-    inv = Inventory(FakeProvidor())
+    inv = Inventory(EC2Providor())
 
     if opts.install_cron:
         install_cron(int(opts.install_cron))
     elif opts.refresh_inventory:
         inv.refresh()
+    elif opts.get_all:
+        [print(i) for i in inv.local_inv]
     elif opts.completions:
-        for i in inv.find_completions(opts.completions):
-            print(i[0])
+        [print(i[0]) for i in inv.find_completions(opts.completions)]
     else:
         if opts.name:
-            print("fake connect to " + opts.name)
+            ip = next(filter(lambda x: x[0] == opts.name, inv.local_inv), None)
+            if ip:
+                call(["ssh", "ubuntu@{}".format(ip[1])])
 
 
 if __name__ == '__main__':

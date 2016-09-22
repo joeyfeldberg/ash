@@ -6,7 +6,7 @@ class EC2Providor():
 
     def get_all(self):
         ec2 = boto3.resource('ec2')
-        instances = ec2.instances.filter(Filters=_filters())
+        instances = ec2.instances.filter(Filters=self._filters())
 
         results = []
         find_name_tag = lambda tag: tag["Key"] == "Name"
