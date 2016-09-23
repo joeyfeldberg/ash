@@ -10,13 +10,16 @@ use_plugin("python.distutils")
 
 
 name = "sip"
-default_task = "publish"
+default_task = "install"
+version = "0.0.2"
+
 
 def zsh_completion_path():
     completion_path = os.path.expanduser('~/.oh-my-zsh/completions')
     if not os.path.exists(completion_path):
         os.makedirs(completion_path)
     return os.path.join(completion_path, "_sip")
+
 
 @init
 def set_properties(project):

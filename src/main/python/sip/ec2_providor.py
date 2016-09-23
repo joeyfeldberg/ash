@@ -1,5 +1,10 @@
 import boto3
 
+
+def create():
+    return EC2Providor()
+
+
 class EC2Providor():
     def __init__(self):
         pass
@@ -9,13 +14,17 @@ class EC2Providor():
         instances = ec2.instances.filter(Filters=self._filters())
 
         results = []
-        find_name_tag = lambda tag: tag["Key"] == "Name"
         for instance in instances:
-            name = next(filter(find_name_tag, instance.tags), None)
-            if not name: continue
+            name = next(filter(self._find_name_tag, instance.tags), None)
+            if not name:
+                continue
+
             results.append((name["Value"], instance.private_ip_address))
 
         return results
+
+    @staticmethod
+    def _find_name_tag(tag): tag["Key"] == "Name"
 
     def _filters(self):
         return [{'Name': 'instance-state-name', 'Values': ['running']}]
