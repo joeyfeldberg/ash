@@ -43,7 +43,9 @@ def run():
     if opts.install_cron:
         install_cron(int(opts.install_cron))
     elif opts.refresh_inventory:
-        inv = inventory.create(ec2_providor.create())
+        from sip.inventory import Inventory
+        from sip.ec2_providor import EC2Providor
+        inv = Inventory(EC2Providor())
         inv.refresh()
     else:
         with SettingsFile() as settings:

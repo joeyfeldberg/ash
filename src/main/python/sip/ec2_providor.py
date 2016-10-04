@@ -29,4 +29,5 @@ class EC2Providor():
         self.ec2 = boto3.resource('ec2')
 
     def get_all(self):
-        return [Instance(i) for i in self.ec2.instances.all()]
+        filters = [{'Name': 'instance-state-name', 'Values': ['running', 'stopped']}]
+        return [Instance(i) for i in self.ec2.instances.filter(Filters=filters)]
