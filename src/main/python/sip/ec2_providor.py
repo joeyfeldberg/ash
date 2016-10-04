@@ -1,30 +1,32 @@
 import boto3
 
 
-def create():
-    return EC2Providor()
+HORIZONTAL_LINE = '\u2503'
+
+class Instance():
+    def __init__(self, ec2_instance):
+        tags = {tag['Key']: tag['Value'] for tag in ec2_instance.tags}
+        self.private_ip_address = ec2_instance.private_ip_address
+        self.instance_id = ec2_instance.instance_id
+        self.name = tags.get('Name') or ec2_instance.private_ip_address
+        self.instance_type = ec2_instance.instance_type
+        self.state = ec2_instance.state
+        self.tags = tags
+
+    def __repr__(self):
+        return "{5} {0:<25} {5} {1:<50} {5} {2:<15} {5} {3:<15} {5} {4:<15}".format(
+            self.instance_id,
+            self.name,
+            self.instance_type,
+            self.private_ip_address,
+            self.state['Name'],
+            HORIZONTAL_LINE
+        )
 
 
 class EC2Providor():
     def __init__(self):
-        pass
+        self.ec2 = boto3.resource('ec2')
 
     def get_all(self):
-        ec2 = boto3.resource('ec2')
-        instances = ec2.instances.filter(Filters=self._filters())
-
-        results = []
-        for instance in instances:
-            name = next(filter(self._find_name_tag, instance.tags), None)
-            if not name:
-                continue
-
-            results.append((name["Value"], instance.private_ip_address))
-
-        return results
-
-    @staticmethod
-    def _find_name_tag(tag): tag["Key"] == "Name"
-
-    def _filters(self):
-        return [{'Name': 'instance-state-name', 'Values': ['running']}]
+        return [Instance(i) for i in self.ec2.instances.all()]

@@ -13,22 +13,13 @@ name = "sip"
 default_task = "install"
 version = "0.0.2"
 
-
-def zsh_completion_path():
-    completion_path = os.path.expanduser('~/.oh-my-zsh/completions')
-    if not os.path.exists(completion_path):
-        os.makedirs(completion_path)
-    return os.path.join(completion_path, "_sip")
-
-
 @init
 def set_properties(project):
-    project.depends_on('fuzzywuzzy')
-    project.depends_on('python-Levenshtein')
     project.depends_on('python-crontab')
     project.depends_on('boto3')
+    project.depends_on(
+        'prompt_toolkit',
+        '1.0.7',
+        'https://github.com/jonathanslenders/python-prompt-toolkit/archive/master.zip'
+    )
     project.set_property('coverage_break_build', False)
-
-    with open(zsh_completion_path(), "w+") as f:
-        with open('src/main/zsh/_sip') as fr:
-            f.write(fr.read())
