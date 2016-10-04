@@ -22,13 +22,17 @@ and in ``~/.aws/config`` put:
     [default]
     region=us-east-1
 
-###### If your're using iTerm
+###### For multiple ssh sessions sip uses cssh, tmux-cssh or i2cssh and it defaults to cssh
+
+###### If you're using iTerm
 
 this will integrate with iTerm's split panel ability to open several ssh sessions
 
 ``gem install i2cssh``
 
-###### But it works with cssh and tmux-cssh also!
+If you're on a mac and not using iTerm you can install tmux-cssh with ``` brew install tmux-cssh ```
+
+###### Now just run ```sip```
 
 
 ## Usage
@@ -63,5 +67,5 @@ it supports:
 ```
 ssh_username - default username to use
 ssh_mux - one of cssh/tmux-cssh/i2cssh
-ssh_identity_file - default indentity file to use (I suggest using ssh-agent though)
+ssh_identity_file - default identity file to use (I suggest using ssh-agent though)
 ```
