@@ -28,6 +28,8 @@ this will integrate with iTerm's split panel ability to open several ssh session
 
 ``gem install i2cssh``
 
+###### But it works with cssh and tmux-cssh also!
+
 
 ## Usage
 ```
@@ -40,7 +42,6 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  --completions COMPLETIONS
   --refresh_inventory
   --install_cron minutes
 ```
@@ -49,3 +50,18 @@ optional arguments:
     sip --refresh_inventory
 ###### To install a cron job that refreshes the local ec2 inventory every 10 minutes
     sip --install_cron 10
+
+###### It has some settings saved as an ini file in ``~/.sipconfig`` and it looks like this:
+
+```ini
+[SSH]
+ssh_username = ubuntu
+ssh_mux = tmux-cssh
+```
+
+it supports:
+```
+ssh_username - default username to use
+ssh_mux - one of cssh/tmux-cssh/i2cssh
+ssh_identity_file - default indentity file to use (I suggest using ssh-agent though)
+```
