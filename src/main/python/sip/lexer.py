@@ -7,7 +7,7 @@ class EC2Lexer(RegexLexer):
 
     tokens = {
         'root': [
-            (r'running', T.Running),
-            (r'stopped', T.Stopped)
+            (r' running ', T.Running),
+            (r' stopped ', T.Stopped)
         ]
     }

@@ -47,13 +47,27 @@ class KeyBindings():
         def _(event):
             event.cli.pop_focus()
 
-        @handle(Keys.F2)
+        @handle(Keys.F9)
         def _(event):
             def done():
                 self.sip_cli.window.refresh_resource_buffer()
                 self.sip_cli.cli.request_redraw()
             self.sip_cli.cli.buffers["RESOURCES_BUFFER"].reset()
             self.sip_cli.inventory.refresh(done)
+
+        @handle(Keys.F2)
+        def _(event):
+            self.selection_mode = True
+            buf = event.cli.buffers["RESOURCES_BUFFER"]
+            buf.cursor_position = 0
+            
+            pos = buf.document.get_end_of_document_position()
+            buf.selection_state = SelectionState(
+                original_cursor_position=0,
+                type=SelectionType.LINES
+            )
+
+            buf.cursor_position = pos
 
         @handle(Keys.Any, filter=shift_down)
         @handle(Keys.Up, filter=shift_down)

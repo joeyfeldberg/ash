@@ -7,12 +7,12 @@ from pygments.token import Token
 
 def completion_bar():
     return Float(
-        bottom=0,
+        bottom=1,
         left=3,
         content=ConditionalContainer(
             VSplit([
                 Window(
-                    content=TokenListControl(get_tokens=lambda _: [(Token.Title, "Filter: ")])
+                    content=TokenListControl(get_tokens=lambda _: [(Token.Toolbar.Search, "Filter: ")])
                 ),
                 Window(
                     content=BufferControl(

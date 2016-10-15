@@ -5,16 +5,8 @@ from prompt_toolkit.utils import is_windows, is_conemu_ansi
 
 
 style = {
-        # Classic prompt.
-        Token.Prompt:                                 'bold',
-        Token.Prompt.Dots:                            'noinherit',
-
-        # Separator between windows. (Used above docstring.)
-        Token.Separator:                              '#bbbbbb',
-
         # Search toolbar.
-        Token.Toolbar.Search:                         '#22aaaa noinherit',
-        Token.Toolbar.Search.Text:                    'noinherit',
+        Token.Toolbar.Search:                         'bg:#000000 #22aaaa',
 
         # System toolbar
         Token.Toolbar.System:                         '#22aaaa noinherit',

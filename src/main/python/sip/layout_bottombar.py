@@ -14,6 +14,8 @@ def bottombar(inventory):
             (TB.Key, '[Enter]'),
             (TB, ' SSH '),
             (TB.Key, '[F2]'),
+            (TB, ' Select All '),
+            (TB.Key, '[F9]'),
         ]
 
         if inventory.status == "refreshing":

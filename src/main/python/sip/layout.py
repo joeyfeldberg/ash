@@ -40,6 +40,17 @@ class ResourceWindow:
             (T.Title, " {:15} ".format("State")),
         ]
 
+    def _format_inv_item(self, item):
+        name = (item.name[:50] + '..') if len(item.name) > 50 else item.name
+        return "{5} {0:<25} {5} {1:<50} {5} {2:<15} {5} {3:<15} {5} {4:<15}".format(
+            item.instance_id,
+            name,
+            item.instance_type,
+            item.private_ip_address,
+            item.state['Name'],
+            HORIZONTAL_LINE
+        )
+
     def refresh_resource_buffer(self, completion_text=None):
         if completion_text:
             inv = self.sip_cli.inventory.find_completions(completion_text)
@@ -48,7 +59,7 @@ class ResourceWindow:
 
 
         self.sip_cli.cli.buffers["RESOURCES_BUFFER"].document = Document(
-            text="\n".join([str(i) for i in inv]),
+            text="\n".join([self._format_inv_item(i) for i in inv]),
             cursor_position=0
         )
 
