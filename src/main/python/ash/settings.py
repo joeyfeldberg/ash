@@ -3,7 +3,7 @@ from os import path
 
 class SettingsFile():
     def __init__(self):
-        self.config_filename = path.join(path.expanduser("~"), '.sipconfig')
+        self.config_filename = path.join(path.expanduser("~"), '.ashconfig')
         self.config = configparser.ConfigParser()
         self.ssh_username = "ubuntu"
         self.ssh_identity_file = None

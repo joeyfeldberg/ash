@@ -8,17 +8,17 @@ from prompt_toolkit.buffer import Buffer
 
 
 class KeyBindings():
-    def __init__(self, sip_cli):
+    def __init__(self, ash_cli):
         self.selection_mode = False
-        self.sip_cli = sip_cli
-        self.inventory = sip_cli.inventory
+        self.ash_cli = ash_cli
+        self.inventory = ash_cli.inventory
 
         manager = KeyBindingManager(
             enable_extra_page_navigation=True)
         handle = manager.registry.add_binding
         self.add_bindings(handle)
         self.registry = manager.registry
-        self.settings = sip_cli.settings
+        self.settings = ash_cli.settings
 
     def add_bindings(self, handle):
         search_empty = Condition(lambda cli: len(cli.buffers["SEARCH_BUFFER"].text) <= 0 )
@@ -50,10 +50,10 @@ class KeyBindings():
         @handle(Keys.F9)
         def _(event):
             def done():
-                self.sip_cli.window.refresh_resource_buffer()
-                self.sip_cli.cli.request_redraw()
-            self.sip_cli.cli.buffers["RESOURCES_BUFFER"].reset()
-            self.sip_cli.inventory.refresh(done)
+                self.ash_cli.window.refresh_resource_buffer()
+                self.ash_cli.cli.request_redraw()
+            self.ash_cli.cli.buffers["RESOURCES_BUFFER"].reset()
+            self.ash_cli.inventory.refresh(done)
 
         @handle(Keys.F2)
         def _(event):

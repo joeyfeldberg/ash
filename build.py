@@ -9,7 +9,7 @@ use_plugin("python.coverage")
 use_plugin("python.distutils")
 
 
-name = "sip"
+name = "ash"
 default_task = "install"
 version = "0.0.2"
 

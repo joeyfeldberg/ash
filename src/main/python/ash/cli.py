@@ -5,14 +5,14 @@ from prompt_toolkit.styles import style_from_dict
 from prompt_toolkit.buffer import Buffer
 from prompt_toolkit.buffer import AcceptAction
 
-from sip.style import style
-from sip.inventory import Inventory
-from sip.ec2_providor import EC2Providor
-from sip.key_bindings import KeyBindings
-from sip.layout import ResourceWindow
+from ash.style import style
+from ash.inventory import Inventory
+from ash.ec2_providor import EC2Providor
+from ash.key_bindings import KeyBindings
+from ash.layout import ResourceWindow
 
 
-class SipCLI():
+class ashCLI():
     def __init__(self, settings, eventloop):
         self.eventloop = eventloop
         self.inventory = Inventory(EC2Providor(), self)

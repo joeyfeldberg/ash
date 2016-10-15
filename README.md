@@ -1,4 +1,4 @@
-# sip
+# ash
 
 ## Install
 
@@ -22,7 +22,7 @@ and in ``~/.aws/config`` put:
     [default]
     region=us-east-1
 
-###### For multiple ssh sessions sip uses cssh, tmux-cssh or i2cssh and it defaults to cssh
+###### For multiple ssh sessions ash uses cssh, tmux-cssh or i2cssh and it defaults to cssh
 
 ###### If you're using iTerm
 
@@ -32,12 +32,12 @@ this will integrate with iTerm's split panel ability to open several ssh session
 
 If you're on a mac and not using iTerm you can install tmux-cssh with ``` brew install tmux-cssh ```
 
-###### Now just run ```sip```
+###### Now just run ```ash```
 
 
 ## Usage
 ```
-usage: sip [-h] [--completions COMPLETIONS] [--refresh_inventory]
+usage: ash [-h] [--completions COMPLETIONS] [--refresh_inventory]
            [--install_cron minutes]
            [name]
 
@@ -51,11 +51,11 @@ optional arguments:
 ```
 
 ###### To create a local ec2 inventory
-    sip --refresh_inventory
+    ash --refresh_inventory
 ###### To install a cron job that refreshes the local ec2 inventory every 10 minutes
-    sip --install_cron 10
+    ash --install_cron 10
 
-###### It has some settings saved as an ini file in ``~/.sipconfig`` and it looks like this:
+###### It has some settings saved as an ini file in ``~/.ashconfig`` and it looks like this:
 
 ```ini
 [SSH]

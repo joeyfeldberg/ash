@@ -22,8 +22,8 @@ class SimpleMargin(Margin):
     def create_margin(self, cli, window_render_info, width, height): return []
 
 class ResourceWindow:
-    def __init__(self, sip_cli):
-        self.sip_cli = sip_cli
+    def __init__(self, ash_cli):
+        self.ash_cli = ash_cli
 
     def titles(self, _):
         T = Token.Resouce
@@ -53,12 +53,12 @@ class ResourceWindow:
 
     def refresh_resource_buffer(self, completion_text=None):
         if completion_text:
-            inv = self.sip_cli.inventory.find_completions(completion_text)
+            inv = self.ash_cli.inventory.find_completions(completion_text)
         else:
-            inv = self.sip_cli.inventory.local_inv
+            inv = self.ash_cli.inventory.local_inv
 
 
-        self.sip_cli.cli.buffers["RESOURCES_BUFFER"].document = Document(
+        self.ash_cli.cli.buffers["RESOURCES_BUFFER"].document = Document(
             text="\n".join([self._format_inv_item(i) for i in inv]),
             cursor_position=0
         )
@@ -67,7 +67,7 @@ class ResourceWindow:
         return FloatContainer(
             HSplit([
                 # Title
-                TokenListToolbar(get_tokens=lambda cli: [(Token.Toolbar.Status.Title, 'SIP')],
+                TokenListToolbar(get_tokens=lambda cli: [(Token.Toolbar.Status.Title, 'ash')],
                                  align_center=True,
                                  default_char=Char(' ', Token.Toolbar.Status)),
 
@@ -101,7 +101,7 @@ class ResourceWindow:
                     )
                 ),
                 VSplit([
-                    bottombar(self.sip_cli.inventory)
+                    bottombar(self.ash_cli.inventory)
                 ])
             ]),
             [

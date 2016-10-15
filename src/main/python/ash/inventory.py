@@ -4,12 +4,12 @@ from os import path
 
 
 class Inventory():
-    def __init__(self, providor, sip_cli=None):
+    def __init__(self, providor, ash_cli=None):
         self.status = "ready"
-        self.sip_cli = sip_cli
+        self.ash_cli = ash_cli
         self.local_inv = []
         self.providor = providor
-        self.storage_filename = path.join(path.expanduser("~"), '.sip.data')
+        self.storage_filename = path.join(path.expanduser("~"), '.ash.data')
         if path.isfile(self.storage_filename):
             self.local_inv = self._read_local_file(self.storage_filename)
 
@@ -25,7 +25,7 @@ class Inventory():
             def _task():
                 self._do_refresh()
                 on_done()
-            self.sip_cli.eventloop.run_in_executor(_task)
+            self.ash_cli.eventloop.run_in_executor(_task)
         else:
             self._do_refresh()
 
