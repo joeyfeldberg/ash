@@ -1,6 +1,6 @@
 from prompt_toolkit.layout.containers import HSplit, VSplit, Window, ScrollOffsets, FloatContainer
 from prompt_toolkit.layout.processors import HighlightSelectionProcessor
-from prompt_toolkit.layout.controls import BufferControl, FillControl, TokenListControl
+from prompt_toolkit.layout.controls import FillControl, TokenListControl
 from prompt_toolkit.layout.margins import Margin, ScrollbarMargin
 from prompt_toolkit.layout.dimension import LayoutDimension
 from prompt_toolkit.layout.toolbars import TokenListToolbar
@@ -12,6 +12,7 @@ from pygments.token import Token
 from .layout_bottombar import bottombar
 from .layout_completer import completion_bar
 from .lexer import EC2Lexer
+from .table_control import TableControl
 
 VERTICAL_LINE = '\u2501'
 HORIZONTAL_LINE = '\u2503'
@@ -93,10 +94,10 @@ class ResourceWindow:
                     scroll_offsets=ScrollOffsets(top=2, bottom=2),
                     #right_margins=Margin.width=,
                     left_margins=[ScrollbarMargin(display_arrows=True), SimpleMargin(2)],
-                    content=BufferControl(
+                    content=TableControl(
+                        buffer_name='RESOURCES_BUFFER',
                         lexer=PygmentsLexer(EC2Lexer),
                         default_char=Char(token=Token.Resouce),
-                        buffer_name='RESOURCES_BUFFER',
                         input_processors=[HighlightSelectionProcessor()]
                     )
                 ),

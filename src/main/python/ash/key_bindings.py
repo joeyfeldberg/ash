@@ -60,7 +60,7 @@ class KeyBindings():
             self.selection_mode = True
             buf = event.cli.buffers["RESOURCES_BUFFER"]
             buf.cursor_position = 0
-            
+
             pos = buf.document.get_end_of_document_position()
             buf.selection_state = SelectionState(
                 original_cursor_position=0,
@@ -68,6 +68,8 @@ class KeyBindings():
             )
 
             buf.cursor_position = pos
+            cur_line = len(buf.document.current_line)
+            buf.cursor_position = pos - cur_line
 
         @handle(Keys.Any, filter=shift_down)
         @handle(Keys.Up, filter=shift_down)
