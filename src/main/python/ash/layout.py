@@ -93,10 +93,9 @@ class ResourceWindow:
                     cursorline_token=Token.CursorColumn,
                     get_vertical_scroll=lambda x: 0,
                     scroll_offsets=ScrollOffsets(top=2, bottom=2),
-                    #right_margins=Margin.width=,
                     left_margins=[ScrollbarMargin(display_arrows=True), SimpleMargin(2)],
                     content=TableControl(
-                        get_table_tokens=lambda cli: {"a": [1, 2, 3]},
+                        get_table_tokens=lambda cli: {(Token.Resouce.Title, "title1"): [(Token.Resouce.Running, "test_r"), (Token.Resouce.Stam, "stam"), (Token.Resouce.Border, "border")]},
                         default_char=Char(token=Token.Resouce),
                         has_focus=True
                     )

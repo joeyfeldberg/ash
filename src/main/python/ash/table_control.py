@@ -6,6 +6,7 @@ from prompt_toolkit.layout.screen import Char, Point
 from prompt_toolkit.layout.utils import split_lines
 from prompt_toolkit.filters import to_cli_filter
 from prompt_toolkit.cache import SimpleCache
+from pygments.token import Token
 
 
 class TableControl(UIControl):
@@ -113,8 +114,7 @@ class TableControl(UIControl):
 
         # Strip mouse handlers from tokens.
         token_lines = [
-            [tuple(item[:2]) for item in line]
-            for line in token_lines_with_mouse_handlers
+            [tuple(item[:2]) for item in line] for line in token_lines_with_mouse_handlers
         ]
 
         # Keep track of the tokens with mouse handler, for later use in
