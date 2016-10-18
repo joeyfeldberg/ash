@@ -53,6 +53,7 @@ class ResourceWindow:
         )
 
     def refresh_resource_buffer(self, completion_text=None):
+        return None
         if completion_text:
             inv = self.ash_cli.inventory.find_completions(completion_text)
         else:
@@ -95,10 +96,9 @@ class ResourceWindow:
                     #right_margins=Margin.width=,
                     left_margins=[ScrollbarMargin(display_arrows=True), SimpleMargin(2)],
                     content=TableControl(
-                        buffer_name='RESOURCES_BUFFER',
-                        lexer=PygmentsLexer(EC2Lexer),
+                        get_table_tokens=lambda cli: {"a": [1, 2, 3]},
                         default_char=Char(token=Token.Resouce),
-                        input_processors=[HighlightSelectionProcessor()]
+                        has_focus=True
                     )
                 ),
                 VSplit([

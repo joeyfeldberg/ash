@@ -27,8 +27,7 @@ class ashCLI():
             style=style_from_dict(style),
             use_alternate_screen=True,
             buffers=BufferMapping(
-                self._create_buffers(),
-                initial="RESOURCES_BUFFER"
+                self._create_buffers()
             )
         )
 
@@ -38,13 +37,8 @@ class ashCLI():
 
     def _create_buffers(self):
 
-        resouces_buffer = Buffer(
-            accept_action=AcceptAction(lambda cli, buffer: cli.set_return_value(buffer))
-        )
-
         search_buffer = Buffer(
             on_text_changed=lambda b: self.window.refresh_resource_buffer(b.text)
         )
 
-        return {"RESOURCES_BUFFER": resouces_buffer,
-                "SEARCH_BUFFER": search_buffer}
+        return {"SEARCH_BUFFER": search_buffer}
