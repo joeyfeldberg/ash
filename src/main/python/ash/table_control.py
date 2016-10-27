@@ -3,11 +3,13 @@ from prompt_toolkit.enums import DEFAULT_BUFFER
 from prompt_toolkit.layout.processors import Processor
 from prompt_toolkit.layout.lexers import Lexer
 from prompt_toolkit.layout.screen import Char, Point
-from prompt_toolkit.layout.utils import split_lines
 from prompt_toolkit.filters import to_cli_filter
 from prompt_toolkit.cache import SimpleCache
 from pygments.token import Token
 
+
+VERTICAL_LINE = '\u2501'
+HORIZONTAL_LINE = '\u2503'
 
 class TableControl(UIControl):
     """
@@ -26,8 +28,9 @@ class TableControl(UIControl):
         ``Token.SetCursorPosition`` token somewhere in the token list, then the
         cursor will be shown there.
     """
-    def __init__(self, get_table_tokens, default_char=None, get_default_char=None,
+    def __init__(self, get_table_titles, get_table_tokens, default_char=None, get_default_char=None,
                  align_right=False, align_center=False, has_focus=False):
+        assert callable(get_table_titles)
         assert callable(get_table_tokens)
         assert default_char is None or isinstance(default_char, Char)
         assert get_default_char is None or callable(get_default_char)
@@ -37,7 +40,9 @@ class TableControl(UIControl):
         self.align_center = to_cli_filter(align_center)
         self._has_focus_filter = to_cli_filter(has_focus)
 
+        self.get_table_titles = get_table_titles
         self.get_table_tokens = get_table_tokens
+        self.columns_widths = [max([len(t[1]) for t in tokens]) for tokens in self.get_table_tokens(None)]
 
         # Construct `get_default_char` callable.
         if default_char:
@@ -59,7 +64,7 @@ class TableControl(UIControl):
         self._tokens = None
 
     def __repr__(self):
-        return '%s(%r)' % (self.__class__.__name__, self.get_table_tokens)
+        return '%s(%r)' % (self.__class__.__name__, self.get_table_titles, self.get_table_tokens)
 
     def _get_table_tokens_cached(self, cli):
         """
@@ -92,30 +97,8 @@ class TableControl(UIControl):
 
         default_char = self.get_default_char(cli)
 
-        # Wrap/align right/center parameters.
-        right = self.align_right(cli)
-        center = self.align_center(cli)
-
-        def process_line(line):
-            " Center or right align a single line. "
-            used_width = token_list_width(line)
-            padding = width - used_width
-            if center:
-                padding = int(padding / 2)
-            return [(default_char.token, default_char.char * padding)] + line
-
-        if right or center:
-            token_lines_with_mouse_handlers = []
-
-            for line in split_lines(tokens_with_mouse_handlers):
-                token_lines_with_mouse_handlers.append(process_line(line))
-        else:
-            token_lines_with_mouse_handlers = list(split_lines(tokens_with_mouse_handlers))
-
         # Strip mouse handlers from tokens.
-        token_lines = [
-            [tuple(item[:2]) for item in line] for line in token_lines_with_mouse_handlers
-        ]
+        tokens = [[tuple(item[:2]) for item in line] for line in tokens_with_mouse_handlers]
 
         # Keep track of the tokens with mouse handler, for later use in
         # `mouse_handler`.
@@ -126,7 +109,7 @@ class TableControl(UIControl):
         def get_cursor_position():
             SetCursorPosition = Token.SetCursorPosition
 
-            for y, line in enumerate(token_lines):
+            for y, line in enumerate(tokens):
                 x = 0
                 for token, text in line:
                     if token == SetCursorPosition:
@@ -136,15 +119,30 @@ class TableControl(UIControl):
 
         # Create content, or take it from the cache.
         key = (default_char.char, default_char.token,
-                tuple(tokens_with_mouse_handlers), width, right, center)
+                tuple(tokens_with_mouse_handlers), width)
+
+        def interlace_lists(list1, list2):
+            result = [None]*(len(list1)+len(list2))
+            result[::2] = list1
+            result[1::2] = list2
+            return result
+
+        def get_line(index):
+            if index == 0:
+                seps = [(Token.Resouce.Border, " {:>{}} ".format(HORIZONTAL_LINE, i)) for i in self.columns_widths]
+                return interlace_lists(self.get_table_titles(cli), seps)
+            if index == 1:
+                return [(Token.Resouce.Border, VERTICAL_LINE)] * width
+            return [col[index] for col in tokens]
 
         def get_content():
-            return UIContent(get_line=lambda i: token_lines[i],
-                             line_count=len(token_lines),
+            return UIContent(get_line=get_line,
+                             line_count=len(tokens),
                              default_char=default_char,
                              cursor_position=get_cursor_position())
 
-        return self._content_cache.get(key, get_content)
+        #return self._content_cache.get(key, get_content)
+        return get_content()
 
     @classmethod
     def static(cls, tokens):

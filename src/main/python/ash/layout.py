@@ -77,14 +77,6 @@ class ResourceWindow:
                 Window(height=LayoutDimension.exact(1),
                        content=FillControl(VERTICAL_LINE, token=Token.Resouce.Border)
                 ),
-                Window(height=LayoutDimension.exact(1),
-                       content=TokenListControl(get_tokens=self.titles),
-                       left_margins=[SimpleMargin(3)]
-                ),
-                Window(height=LayoutDimension.exact(1),
-                       content=FillControl(VERTICAL_LINE, token=Token.Resouce.Border),
-                       left_margins=[SimpleMargin(3)]
-                ),
 
                 # resources area
                 Window(
@@ -95,13 +87,28 @@ class ResourceWindow:
                     scroll_offsets=ScrollOffsets(top=2, bottom=2),
                     left_margins=[ScrollbarMargin(display_arrows=True), SimpleMargin(2)],
                     content=TableControl(
-                        get_table_tokens=lambda cli: {
-                            (Token.Resouce.Title, "title1"): [
+                        get_table_titles=lambda cli: [
+                            (Token.Resouce.Title, "title1"),
+                            (Token.Resouce.Title, "title2"),
+                            (Token.Resouce.Title, "title3")
+                            ],
+                        get_table_tokens=lambda cli: [
+                            [
                                 (Token.Resouce.Running, "test_r"),
                                 (Token.Resouce.Stam, "stam"),
                                 (Token.Resouce.Border, "border")
+                            ],
+                            [
+                                (Token.Resouce.Running, "test_r2"),
+                                (Token.Resouce.Stam, "stam2"),
+                                (Token.Resouce.Border, "border2")
+                            ],
+                            [
+                                (Token.Resouce.Running, "test_r3"),
+                                (Token.Resouce.Stam, "stam3"),
+                                (Token.Resouce.Border, "border3")
                             ]
-                        },
+                        ],
                         default_char=Char(token=Token.Resouce),
                         has_focus=True
                     )
