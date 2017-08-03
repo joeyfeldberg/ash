@@ -16,10 +16,16 @@ from .lexer import EC2Lexer
 VERTICAL_LINE = '\u2501'
 HORIZONTAL_LINE = '\u2503'
 
+
 class SimpleMargin(Margin):
     def __init__(self, width): self.width = width
-    def get_width(self, cli, get_ui_content): return self.width
-    def create_margin(self, cli, window_render_info, width, height): return []
+
+    def get_width(self, cli, get_ui_content):
+        return self.width
+
+    def create_margin(self, cli, window_render_info, width, height):
+        return []
+
 
 class ResourceWindow:
     def __init__(self, ash_cli):
@@ -37,16 +43,19 @@ class ResourceWindow:
             (T.Border, HORIZONTAL_LINE),
             (T.Title, " {:15} ".format("Private IP")),
             (T.Border, HORIZONTAL_LINE),
+            (T.Title, " {:15} ".format("Public IP")),
+            (T.Border, HORIZONTAL_LINE),
             (T.Title, " {:15} ".format("State")),
         ]
 
     def _format_inv_item(self, item):
         name = (item.name[:50] + '..') if len(item.name) > 50 else item.name
-        return "{5} {0:<25} {5} {1:<50} {5} {2:<15} {5} {3:<15} {5} {4:<15}".format(
+        return "{6} {0:<25} {6} {1:<50} {6} {2:<15} {6} {3:<15} {6} {4:<15} {6} {5:<15}".format(
             item.instance_id,
             name,
             item.instance_type,
             item.private_ip_address,
+            item.public_ip_address,
             item.state['Name'],
             HORIZONTAL_LINE
         )
@@ -56,7 +65,6 @@ class ResourceWindow:
             inv = self.ash_cli.inventory.find_completions(completion_text)
         else:
             inv = self.ash_cli.inventory.local_inv
-
 
         self.ash_cli.cli.buffers["RESOURCES_BUFFER"].document = Document(
             text="\n".join([self._format_inv_item(i) for i in inv]),
@@ -91,7 +99,6 @@ class ResourceWindow:
                     cursorline_token=Token.CursorColumn,
                     get_vertical_scroll=lambda x: 0,
                     scroll_offsets=ScrollOffsets(top=2, bottom=2),
-                    #right_margins=Margin.width=,
                     left_margins=[ScrollbarMargin(display_arrows=True), SimpleMargin(2)],
                     content=BufferControl(
                         lexer=PygmentsLexer(EC2Lexer),

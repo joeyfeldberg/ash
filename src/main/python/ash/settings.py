@@ -1,6 +1,7 @@
 import configparser
 from os import path
 
+
 class SettingsFile():
     def __init__(self):
         self.config_filename = path.join(path.expanduser("~"), '.ashconfig')
@@ -8,6 +9,7 @@ class SettingsFile():
         self.ssh_username = "ubuntu"
         self.ssh_identity_file = None
         self.ssh_mux = "cssh"
+        self.use_private_ip = True
 
     def __enter__(self):
         self.config.read(self.config_filename)
@@ -23,6 +25,9 @@ class SettingsFile():
         self.ssh_mux = self.config.get(
             section="SSH", option="ssh_mux",
             fallback=self.ssh_mux)
+        self.ssh_mux = self.config.get(
+            section="SSH", option="use_private_ip",
+            fallback=self.use_private_ip)
 
         return self
 

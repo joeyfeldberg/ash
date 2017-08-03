@@ -9,6 +9,7 @@ def connect(settings, ips):
     else:
         _connect_mux(settings, ips)
 
+
 def _connect_mux(settings, ips):
     machines = ["{}@{}".format(settings.ssh_username, ip) for ip in ips]
     ssh_ident = settings.ssh_identity_file
