@@ -5,8 +5,9 @@ class Instance():
     def __init__(self, ec2_instance):
         tags = {tag['Key']: tag['Value'] for tag in ec2_instance.tags}
         self.private_ip_address = ec2_instance.private_ip_address
+        self.public_dns_name = ec2_instance.public_dns_name
         self.instance_id = ec2_instance.instance_id
-        self.name = tags.get('Name') or ec2_instance.private_ip_address
+        self.name = tags.get('Name') or ec2_instance.public_dns_name
         self.instance_type = ec2_instance.instance_type
         self.state = ec2_instance.state
         self.tags = tags

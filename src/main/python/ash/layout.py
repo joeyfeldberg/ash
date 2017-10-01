@@ -35,18 +35,18 @@ class ResourceWindow:
             (T.Border, HORIZONTAL_LINE),
             (T.Title, " {:15} ".format("Type")),
             (T.Border, HORIZONTAL_LINE),
-            (T.Title, " {:15} ".format("Private IP")),
+            (T.Title, " {:15} ".format("DNS NAME")),
             (T.Border, HORIZONTAL_LINE),
             (T.Title, " {:15} ".format("State")),
         ]
 
     def _format_inv_item(self, item):
         name = (item.name[:50] + '..') if len(item.name) > 50 else item.name
-        return "{5} {0:<25} {5} {1:<50} {5} {2:<15} {5} {3:<15} {5} {4:<15}".format(
+        return "{5} {0:<25} {5} {1:<50} {5} {2:<15} {5} {3:<45} {5} {4:<15}".format(
             item.instance_id,
             name,
             item.instance_type,
-            item.private_ip_address,
+            item.public_dns_name,
             item.state['Name'],
             HORIZONTAL_LINE
         )

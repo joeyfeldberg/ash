@@ -9,7 +9,7 @@ from ash.cli import ashCLI
 from ash.ssh import connect
 from ash.settings import SettingsFile
 
-ipv4_address = re.compile('(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)')
+ipv4_address = re.compile('(ec2.*.com)')
 
 def toolkit_main(settings):
     try:
